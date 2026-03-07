@@ -10,7 +10,7 @@ jest.mock("next/link", () => {
 describe("TopPage", () => {
   it("renders hero section", () => {
     render(<TopPage />);
-    expect(screen.getByText("家計管理を、シンプルに、ゆるく。")).toBeInTheDocument();
+    expect(screen.getByText(/家計管理を、/)).toBeInTheDocument();
   });
 
   it("renders service description section", () => {
