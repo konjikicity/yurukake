@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 import { login } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,18 +14,17 @@ export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
     try {
       await login(email, password);
+      toast.success("ログインしました");
       router.push("/dashboard");
     } catch {
-      setError("ログインに失敗しました");
+      toast.error("ログインに失敗しました");
       setLoading(false);
     }
   };
@@ -44,11 +44,6 @@ export default function LoginForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-destructive/10 text-destructive text-sm text-center py-2 px-4 rounded-lg">
-              {error}
-            </div>
-          )}
           <div className="space-y-2">
             <Label htmlFor="email">メールアドレス</Label>
             <Input
