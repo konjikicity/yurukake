@@ -1,0 +1,7 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat
+
+CMD ["sh", "-c", "npm install && npm run dev"]
