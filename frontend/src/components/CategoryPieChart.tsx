@@ -43,15 +43,15 @@ export default function CategoryPieChart({ data, title }: Props) {
             cx="50%"
             cy="50%"
             outerRadius={100}
-            label={({ category_name, percent }) =>
-              `${category_name} ${(percent * 100).toFixed(0)}%`
+            label={({ name, percent }: { name?: string; percent?: number }) =>
+              `${name ?? ""} ${((percent ?? 0) * 100).toFixed(0)}%`
             }
           >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(value: number) => value.toLocaleString()} />
+          <Tooltip formatter={(value) => Number(value).toLocaleString()} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

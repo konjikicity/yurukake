@@ -29,7 +29,7 @@ export default function YearChart({ data }: Props) {
         <BarChart data={chartData}>
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip formatter={(value: number) => value.toLocaleString()} />
+          <Tooltip formatter={(value) => Number(value).toLocaleString()} />
           <Legend />
           <Bar dataKey="income" name="収入" fill="var(--income)" />
           <Bar dataKey="expense" name="支出" fill="var(--expense)" />
