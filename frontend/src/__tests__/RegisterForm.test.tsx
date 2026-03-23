@@ -84,4 +84,71 @@ describe("RegisterForm", () => {
       expect(toast.error).toHaveBeenCalledWith("登録に失敗しました");
     });
   });
+
+  it("shows field-level validation errors from API", async () => {
+    const { register } = require("@/lib/auth");
+    const axiosError = {
+      response: {
+        status: 422,
+        data: {
+          message: "The given data was invalid.",
+          errors: {
+            email: ["このメールアドレスは既に使用されています。"],
+            password: ["パスワードは8文字以上で入力してください。"],
+          },
+        },
+      },
+    };
+    register.mockRejectedValue(axiosError);
+
+    render(<RegisterForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText("名前"), "テスト");
+    await user.type(screen.getByLabelText("メールアドレス"), "test@example.com");
+    await user.type(screen.getByLabelText("パスワード"), "short");
+    await user.type(screen.getByLabelText("パスワード確認"), "short");
+    await user.click(screen.getByRole("button", { name: "登録" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("このメールアドレスは既に使用されています。")).toBeInTheDocument();
+      expect(screen.getByText("パスワードは8文字以上で入力してください。")).toBeInTheDocument();
+    });
+  });
+
+  it("clears field errors on resubmit", async () => {
+    const { register } = require("@/lib/auth");
+    const axiosError = {
+      response: {
+        status: 422,
+        data: {
+          message: "The given data was invalid.",
+          errors: {
+            email: ["このメールアドレスは既に使用されています。"],
+          },
+        },
+      },
+    };
+    register.mockRejectedValueOnce(axiosError);
+    register.mockResolvedValueOnce({ token: "t", user: { id: 1 } });
+
+    render(<RegisterForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText("名前"), "テスト");
+    await user.type(screen.getByLabelText("メールアドレス"), "test@example.com");
+    await user.type(screen.getByLabelText("パスワード"), "password123");
+    await user.type(screen.getByLabelText("パスワード確認"), "password123");
+    await user.click(screen.getByRole("button", { name: "登録" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("このメールアドレスは既に使用されています。")).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole("button", { name: "登録" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("このメールアドレスは既に使用されています。")).not.toBeInTheDocument();
+    });
+  });
 });

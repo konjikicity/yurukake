@@ -20,6 +20,7 @@ class ExpenseTemplateController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|integer|min:0',
+            'category_id' => 'nullable|integer|exists:categories,id',
         ]);
 
         $template = $request->user()->expenseTemplates()->create($validated);
@@ -36,6 +37,7 @@ class ExpenseTemplateController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'amount' => 'sometimes|required|integer|min:0',
+            'category_id' => 'nullable|integer|exists:categories,id',
         ]);
 
         $expenseTemplate->update($validated);
@@ -69,6 +71,7 @@ class ExpenseTemplateController extends Controller
                 'month' => $validated['month'],
                 'name' => $template->name,
                 'amount' => $template->amount,
+                'category_id' => $template->category_id,
             ]);
         });
 

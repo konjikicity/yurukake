@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\ExpenseTemplate;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -141,6 +142,71 @@ class ExpenseTemplateTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['year', 'month']);
+    }
+
+    public function test_can_create_template_with_category(): void
+    {
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'type' => 'expense']);
+
+        $response = $this->withHeaders($this->authHeaders())
+            ->postJson('/api/expense-templates', [
+                'name' => '家賃',
+                'amount' => 80000,
+                'category_id' => $category->id,
+            ]);
+
+        $response->assertStatus(201)
+            ->assertJsonFragment(['category_id' => $category->id]);
+
+        $this->assertDatabaseHas('expense_templates', [
+            'user_id' => $this->user->id,
+            'name' => '家賃',
+            'category_id' => $category->id,
+        ]);
+    }
+
+    public function test_can_create_template_without_category(): void
+    {
+        $response = $this->withHeaders($this->authHeaders())
+            ->postJson('/api/expense-templates', [
+                'name' => '雑費',
+                'amount' => 1000,
+            ]);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('expense_templates', [
+            'user_id' => $this->user->id,
+            'name' => '雑費',
+            'category_id' => null,
+        ]);
+    }
+
+    public function test_apply_templates_with_category_copies_category_id(): void
+    {
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'type' => 'expense']);
+        ExpenseTemplate::factory()->create([
+            'user_id' => $this->user->id,
+            'name' => '家賃',
+            'amount' => 80000,
+            'category_id' => $category->id,
+        ]);
+
+        $response = $this->withHeaders($this->authHeaders())
+            ->postJson('/api/expense-templates/apply', [
+                'year' => 2026,
+                'month' => 4,
+            ]);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('expense_items', [
+            'user_id' => $this->user->id,
+            'year' => 2026,
+            'month' => 4,
+            'name' => '家賃',
+            'category_id' => $category->id,
+        ]);
     }
 
     public function test_unauthenticated_cannot_access(): void

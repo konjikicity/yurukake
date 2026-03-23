@@ -1,8 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/use-user";
 import { useExpenseTemplates } from "@/hooks/use-templates";
 import { useCategories } from "@/hooks/use-categories";
+import { useSummary } from "@/hooks/use-summary";
 import { logout } from "@/lib/auth";
 import api from "@/lib/api";
 import TemplateList from "@/components/TemplateList";
@@ -12,12 +14,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function MyPage() {
   const router = useRouter();
+  const { data: user } = useUser();
   const { data: templates, mutate } = useExpenseTemplates();
   const { data: incomeCategories, mutate: mutateIncCat } = useCategories("income");
   const { data: expenseCategories, mutate: mutateExpCat } = useCategories("expense");
+  const currentYear = new Date().getFullYear();
+  const { data: summary } = useSummary(currentYear);
 
-  const handleAdd = async (name: string, amount: number) => {
-    await api.post("/api/expense-templates", { name, amount });
+  const totalIncome = summary?.reduce((s, m) => s + m.income, 0) ?? 0;
+  const totalExpense = summary?.reduce((s, m) => s + m.expense, 0) ?? 0;
+  const totalBalance = totalIncome - totalExpense;
+  const monthsWithData = summary?.filter((m) => m.income > 0 || m.expense > 0).length ?? 0;
+  const avgExpense = monthsWithData > 0 ? Math.round(totalExpense / monthsWithData) : 0;
+
+  const handleAdd = async (name: string, amount: number, categoryId?: number) => {
+    await api.post("/api/expense-templates", { name, amount, category_id: categoryId ?? null });
     mutate();
   };
 
@@ -60,12 +71,50 @@ export default function MyPage() {
 
   return (
     <div className="p-4 md:p-8 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold text-foreground">マイページ</h2>
-        <Button variant="outline" onClick={handleLogout}>
-          ログアウト
-        </Button>
-      </div>
+      <Card className="mb-6">
+        <CardContent className="flex items-center justify-between pt-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary">
+              {user?.name?.charAt(0) ?? "?"}
+            </div>
+            <div>
+              <p className="text-lg font-bold text-foreground">{user?.name ?? "---"}</p>
+              <p className="text-sm text-muted-foreground">{user?.email ?? "---"}</p>
+            </div>
+          </div>
+          <Button variant="outline" size="sm" onClick={handleLogout}>
+            ログアウト
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="text-base">{currentYear}年の収支サマリー</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div>
+              <p className="text-xs text-muted-foreground">収入合計</p>
+              <p className="text-lg font-bold text-[var(--income)]">{totalIncome.toLocaleString()}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">支出合計</p>
+              <p className="text-lg font-bold text-[var(--expense)]">{totalExpense.toLocaleString()}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">収支</p>
+              <p className={`text-lg font-bold ${totalBalance < 0 ? "text-[var(--expense)]" : "text-primary"}`}>
+                {totalBalance.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">月平均支出</p>
+              <p className="text-lg font-bold text-muted-foreground">{avgExpense.toLocaleString()}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="space-y-6">
         <Card>
@@ -78,6 +127,7 @@ export default function MyPage() {
           <CardContent>
             <TemplateList
               templates={templates ?? []}
+              categories={expenseCategories ?? []}
               onAdd={handleAdd}
               onDelete={handleDelete}
               onUpdate={handleUpdate}

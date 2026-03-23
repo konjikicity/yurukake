@@ -39,7 +39,7 @@ export default function CategoryManager({ categories, type, onAdd, onDelete, onU
               className="w-4 h-4 rounded-full shrink-0"
               style={{ backgroundColor: cat.color || "#ccc" }}
             />
-            <span className="flex-1">{cat.name}</span>
+            <span className="flex-1 truncate min-w-0">{cat.name}</span>
             <Button
               variant="ghost"
               size="sm"
@@ -50,18 +50,18 @@ export default function CategoryManager({ categories, type, onAdd, onDelete, onU
           </div>
         ))}
       </div>
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-wrap items-center gap-2">
         <input
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
-          className="w-8 h-8 rounded cursor-pointer"
+          className="w-8 h-8 rounded cursor-pointer shrink-0"
         />
         <Input
           placeholder="カテゴリー名"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="flex-1"
+          className="flex-1 min-w-0"
         />
         <Button type="submit">追加</Button>
       </form>

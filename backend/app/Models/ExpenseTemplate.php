@@ -10,7 +10,7 @@ class ExpenseTemplate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'amount'];
+    protected $fillable = ['user_id', 'name', 'amount', 'category_id'];
 
     public function user(): BelongsTo
     {

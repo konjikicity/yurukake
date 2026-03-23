@@ -25,12 +25,12 @@ export default function AddItemForm({ onAdd, categories }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-wrap items-center gap-2">
       {categories && categories.length > 0 && (
         <select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="h-9 rounded-md border border-input bg-transparent px-2 text-sm"
+          className="h-9 rounded-md border border-input bg-transparent px-2 text-sm w-full sm:w-auto"
         >
           <option value="">未分類</option>
           {categories.map((cat) => (
@@ -44,14 +44,14 @@ export default function AddItemForm({ onAdd, categories }: Props) {
         placeholder="項目名"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="flex-1"
+        className="flex-1 min-w-0"
       />
       <Input
         type="number"
         placeholder="金額"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="w-32"
+        className="w-24 sm:w-32"
       />
       <Button type="submit">追加</Button>
     </form>

@@ -3,8 +3,8 @@ import userEvent from "@testing-library/user-event";
 import TemplateList from "@/components/TemplateList";
 
 const mockTemplates = [
-  { id: 1, name: "家賃", amount: 80000 },
-  { id: 2, name: "通信費", amount: 5000 },
+  { id: 1, name: "家賃", amount: 80000, category_id: null },
+  { id: 2, name: "通信費", amount: 5000, category_id: null },
 ];
 
 describe("TemplateList", () => {
@@ -12,6 +12,7 @@ describe("TemplateList", () => {
     render(
       <TemplateList
         templates={mockTemplates}
+        categories={[]}
         onAdd={jest.fn()}
         onDelete={jest.fn()}
         onUpdate={jest.fn()}
@@ -29,6 +30,7 @@ describe("TemplateList", () => {
     render(
       <TemplateList
         templates={[]}
+        categories={[]}
         onAdd={onAdd}
         onDelete={jest.fn()}
         onUpdate={jest.fn()}
@@ -47,7 +49,8 @@ describe("TemplateList", () => {
     const onDelete = jest.fn();
     render(
       <TemplateList
-        templates={[{ id: 1, name: "家賃", amount: 80000 }]}
+        templates={[{ id: 1, name: "家賃", amount: 80000, category_id: null }]}
+        categories={[]}
         onAdd={jest.fn()}
         onDelete={onDelete}
         onUpdate={jest.fn()}

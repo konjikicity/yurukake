@@ -76,4 +76,65 @@ describe("LoginForm", () => {
       expect(toast.error).toHaveBeenCalledWith("ログインに失敗しました");
     });
   });
+
+  it("shows field-level validation errors from API", async () => {
+    const { login } = require("@/lib/auth");
+    const axiosError = {
+      response: {
+        status: 422,
+        data: {
+          message: "The given data was invalid.",
+          errors: {
+            email: ["認証に失敗しました。"],
+          },
+        },
+      },
+    };
+    login.mockRejectedValue(axiosError);
+
+    render(<LoginForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText("メールアドレス"), "test@example.com");
+    await user.type(screen.getByLabelText("パスワード"), "wrongpassword");
+    await user.click(screen.getByRole("button", { name: "ログイン" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("認証に失敗しました。")).toBeInTheDocument();
+    });
+  });
+
+  it("clears field errors on resubmit", async () => {
+    const { login } = require("@/lib/auth");
+    const axiosError = {
+      response: {
+        status: 422,
+        data: {
+          message: "The given data was invalid.",
+          errors: {
+            email: ["認証に失敗しました。"],
+          },
+        },
+      },
+    };
+    login.mockRejectedValueOnce(axiosError);
+    login.mockResolvedValueOnce({ token: "t", user: { id: 1 } });
+
+    render(<LoginForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText("メールアドレス"), "test@example.com");
+    await user.type(screen.getByLabelText("パスワード"), "wrongpassword");
+    await user.click(screen.getByRole("button", { name: "ログイン" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("認証に失敗しました。")).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole("button", { name: "ログイン" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("認証に失敗しました。")).not.toBeInTheDocument();
+    });
+  });
 });

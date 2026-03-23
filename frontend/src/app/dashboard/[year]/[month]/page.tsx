@@ -56,7 +56,7 @@ export default function MonthDetailPage({ params }: Props) {
 
       <div className="mb-8 space-y-4">
         <SummaryBar income={totalIncome} expense={totalExpense} />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="text-sm font-medium text-muted-foreground">月間予算:</span>
           <BudgetInput budget={budgetData?.amount ?? null} onSave={handleSaveBudget} />
           {budgetData?.amount && (

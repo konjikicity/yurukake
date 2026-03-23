@@ -29,7 +29,7 @@ export default function BudgetInput({ budget, onSave }: Props) {
         placeholder="予算額"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="w-40"
+        className="w-28 sm:w-40"
       />
       <Button type="submit" variant="outline" size="sm">
         設定

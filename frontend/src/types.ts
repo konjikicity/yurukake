@@ -15,6 +15,7 @@ export type ExpenseTemplate = {
   user_id: number;
   name: string;
   amount: number;
+  category_id: number | null;
   created_at: string;
   updated_at: string;
 };

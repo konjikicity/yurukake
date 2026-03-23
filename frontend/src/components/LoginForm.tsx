@@ -10,21 +10,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+type FieldErrors = Record<string, string[]>;
+
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setFieldErrors({});
     try {
       await login(email, password);
       toast.success("ログインしました");
       router.push("/dashboard");
-    } catch {
-      toast.error("ログインに失敗しました");
+    } catch (err: unknown) {
+      const error = err as { response?: { status?: number; data?: { errors?: FieldErrors } } };
+      if (error?.response?.status === 422 && error.response.data?.errors) {
+        setFieldErrors(error.response.data.errors);
+      } else {
+        toast.error("ログインに失敗しました");
+      }
       setLoading(false);
     }
   };
@@ -54,6 +63,9 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+            {fieldErrors.email?.map((msg) => (
+              <p key={msg} className="text-sm text-destructive">{msg}</p>
+            ))}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">パスワード</Label>
@@ -65,6 +77,9 @@ export default function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {fieldErrors.password?.map((msg) => (
+              <p key={msg} className="text-sm text-destructive">{msg}</p>
+            ))}
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "ログイン中..." : "ログイン"}
