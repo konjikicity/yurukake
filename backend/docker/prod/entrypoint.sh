@@ -7,8 +7,13 @@ php artisan route:cache
 php artisan view:cache
 
 export PORT=${PORT:-8000}
+echo "=== PORT is: ${PORT} ==="
 envsubst '${PORT}' < /etc/nginx/sites-available/default > /etc/nginx/sites-available/default.tmp
 mv /etc/nginx/sites-available/default.tmp /etc/nginx/sites-available/default
+
+echo "=== nginx.conf content ==="
+cat /etc/nginx/sites-available/default
+echo "=== end nginx.conf ==="
 
 echo "Starting php-fpm..."
 php-fpm -D
