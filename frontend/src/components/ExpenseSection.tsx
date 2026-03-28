@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useExpenseItems } from "@/hooks/use-items";
 import { useCategories } from "@/hooks/use-categories";
 import { groupItemsByCategory } from "@/lib/group-items";
 import api from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import ItemRow from "./ItemRow";
 import AddItemForm from "./AddItemForm";
 
@@ -13,6 +16,7 @@ type Props = {
 };
 
 export default function ExpenseSection({ year, month }: Props) {
+  const [showForm, setShowForm] = useState(false);
   const { data: items, mutate } = useExpenseItems(year, month);
   const { data: categories } = useCategories("expense");
 
@@ -33,9 +37,25 @@ export default function ExpenseSection({ year, month }: Props) {
     mutate();
   };
 
+  const handleAddAndClose = (name: string, amount: number, categoryId?: number) => {
+    handleAdd(name, amount, categoryId);
+    setShowForm(false);
+  };
+
   return (
     <div className="space-y-3">
-      <h2 className="text-xl font-bold text-[var(--expense)]">支出</h2>
+      <div className="flex items-center gap-2">
+        <h2 className="text-xl font-bold text-[var(--expense)]">支出</h2>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-7 w-7"
+          onClick={() => setShowForm(!showForm)}
+          aria-label="追加"
+        >
+          <Plus className="size-4" />
+        </Button>
+      </div>
       <div className="space-y-4">
         {groups.map((group) => (
           <div key={group.categoryId ?? "uncategorized"}>
@@ -68,7 +88,7 @@ export default function ExpenseSection({ year, month }: Props) {
           </div>
         ))}
       </div>
-      <AddItemForm onAdd={handleAdd} categories={categories} />
+      {showForm && <AddItemForm onAdd={handleAddAndClose} categories={categories} />}
     </div>
   );
 }

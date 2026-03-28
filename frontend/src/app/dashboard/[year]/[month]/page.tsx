@@ -4,13 +4,11 @@ import { use } from "react";
 import Link from "next/link";
 import { useIncomeItems, useExpenseItems } from "@/hooks/use-items";
 import { useCategorySummary } from "@/hooks/use-categories";
-import { useBudget } from "@/hooks/use-budget";
 import IncomeSection from "@/components/IncomeSection";
 import ExpenseSection from "@/components/ExpenseSection";
 import SummaryBar from "@/components/SummaryBar";
 import ApplyTemplatesButton from "@/components/ApplyTemplatesButton";
 import CategoryPieChart from "@/components/CategoryPieChart";
-import BudgetInput from "@/components/BudgetInput";
 import api from "@/lib/api";
 
 type Props = {
@@ -25,19 +23,12 @@ export default function MonthDetailPage({ params }: Props) {
   const { data: expenseItems, mutate: mutateExpense } = useExpenseItems(year, month);
   const { data: expenseSummary } = useCategorySummary(year, month, "expense");
   const { data: incomeSummary } = useCategorySummary(year, month, "income");
-  const { data: budgetData, mutate: mutateBudget } = useBudget(year, month);
-
   const totalIncome = incomeItems?.reduce((sum, i) => sum + i.amount, 0) ?? 0;
   const totalExpense = expenseItems?.reduce((sum, i) => sum + i.amount, 0) ?? 0;
 
   const handleApplyTemplates = async () => {
     await api.post("/api/expense-templates/apply", { year, month });
     mutateExpense();
-  };
-
-  const handleSaveBudget = async (amount: number) => {
-    await api.post("/api/monthly-budgets", { year, month, amount });
-    mutateBudget();
   };
 
   return (
@@ -54,20 +45,8 @@ export default function MonthDetailPage({ params }: Props) {
         <ApplyTemplatesButton onApply={handleApplyTemplates} />
       </div>
 
-      <div className="mb-8 space-y-4">
+      <div className="mb-8">
         <SummaryBar income={totalIncome} expense={totalExpense} />
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <span className="text-sm font-medium text-muted-foreground">月間予算:</span>
-          <BudgetInput budget={budgetData?.amount ?? null} onSave={handleSaveBudget} />
-          {budgetData?.amount && (
-            <div className="text-sm">
-              <span className={totalExpense > budgetData.amount ? "text-[var(--expense)] font-bold" : "text-muted-foreground"}>
-                {totalExpense.toLocaleString()} / {budgetData.amount.toLocaleString()}
-                （残り {(budgetData.amount - totalExpense).toLocaleString()}）
-              </span>
-            </div>
-          )}
-        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">

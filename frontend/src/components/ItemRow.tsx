@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Pencil, Trash2 } from "lucide-react";
 
 type Props = {
   id: number;
@@ -46,13 +47,31 @@ export default function ItemRow({ id, name, amount, onDelete, onUpdate }: Props)
 
   return (
     <div className="flex items-center justify-between gap-2 py-2 border-b border-border last:border-b-0">
-      <span className="cursor-pointer truncate min-w-0" onClick={() => setEditing(true)}>
-        {name}
-      </span>
-      <div className="flex items-center gap-3 shrink-0">
-        <span className="font-bold">{amount.toLocaleString()}</span>
-        <Button size="sm" variant="destructive" onClick={() => onDelete(id)}>
-          削除
+      <span className="truncate min-w-0">{name}</span>
+      <div className="flex items-center gap-2 shrink-0">
+        <span
+          className="font-bold cursor-pointer hover:text-primary"
+          onClick={() => setEditing(true)}
+        >
+          {amount.toLocaleString()}
+        </span>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-7 w-7"
+          onClick={() => setEditing(true)}
+          aria-label="編集"
+        >
+          <Pencil className="size-4" />
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-7 w-7 text-destructive hover:text-destructive"
+          onClick={() => onDelete(id)}
+          aria-label="削除"
+        >
+          <Trash2 className="size-4" />
         </Button>
       </div>
     </div>
