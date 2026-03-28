@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export LOG_CHANNEL=stderr
+
 php artisan migrate --force || echo "Migration failed, continuing..."
 php artisan config:cache
 php artisan route:cache
