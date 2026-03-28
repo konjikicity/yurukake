@@ -15,6 +15,8 @@ echo "=== nginx.conf content ==="
 cat /etc/nginx/sites-available/default
 echo "=== end nginx.conf ==="
 
+ln -sf /dev/stderr /var/www/html/storage/logs/laravel.log
+
 echo "Starting php-fpm..."
 php-fpm -D
 echo "Testing nginx config..."
