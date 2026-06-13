@@ -14,6 +14,8 @@ export default function Header() {
   }, [pathname]);
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isDashboardActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  const isMypageActive = pathname === "/mypage";
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
@@ -29,11 +31,23 @@ export default function Header() {
         <nav className="flex items-center gap-3">
           {loggedIn ? (
             <>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm">ダッシュボード</Button>
+              <Link href="/dashboard" aria-current={isDashboardActive ? "page" : undefined}>
+                <Button
+                  variant={isDashboardActive ? "default" : "ghost"}
+                  size="sm"
+                  className={isDashboardActive ? "font-bold" : undefined}
+                >
+                  ダッシュボード
+                </Button>
               </Link>
-              <Link href="/mypage">
-                <Button variant="outline" size="sm">マイページ</Button>
+              <Link href="/mypage" aria-current={isMypageActive ? "page" : undefined}>
+                <Button
+                  variant={isMypageActive ? "default" : "outline"}
+                  size="sm"
+                  className={isMypageActive ? "font-bold" : undefined}
+                >
+                  マイページ
+                </Button>
               </Link>
             </>
           ) : (

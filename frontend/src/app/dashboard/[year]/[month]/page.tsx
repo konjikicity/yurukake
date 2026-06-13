@@ -9,6 +9,7 @@ import ExpenseSection from "@/components/ExpenseSection";
 import SummaryBar from "@/components/SummaryBar";
 import ApplyTemplatesButton from "@/components/ApplyTemplatesButton";
 import CategoryPieChart from "@/components/CategoryPieChart";
+import SavingsProgress from "@/components/SavingsProgress";
 import api from "@/lib/api";
 
 type Props = {
@@ -47,6 +48,10 @@ export default function MonthDetailPage({ params }: Props) {
 
       <div className="mb-8">
         <SummaryBar income={totalIncome} expense={totalExpense} />
+      </div>
+
+      <div className="mb-8">
+        <SavingsProgress mode="monthly" income={totalIncome} balance={totalIncome - totalExpense} />
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">

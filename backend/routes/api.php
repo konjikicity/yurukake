@@ -8,6 +8,7 @@ use App\Http\Controllers\ExpenseItemController;
 use App\Http\Controllers\ExpenseTemplateController;
 use App\Http\Controllers\IncomeItemController;
 use App\Http\Controllers\MonthlyBudgetController;
+use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\SummaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/category-summary', CategorySummaryController::class);
     Route::get('/monthly-budgets', [MonthlyBudgetController::class, 'index']);
     Route::post('/monthly-budgets', [MonthlyBudgetController::class, 'store']);
+
+    Route::get('/savings-goal', [SavingsGoalController::class, 'show']);
+    Route::post('/savings-goal', [SavingsGoalController::class, 'store']);
 });

@@ -6,6 +6,7 @@ import YearSelector from "@/components/YearSelector";
 import CurrentMonthCard from "@/components/CurrentMonthCard";
 import MonthCard from "@/components/MonthCard";
 import YearChart from "@/components/YearChart";
+import SavingsProgress from "@/components/SavingsProgress";
 
 export default function DashboardPage() {
   const currentMonth = new Date().getMonth() + 1;
@@ -23,6 +24,8 @@ export default function DashboardPage() {
 
   const currentMonthData = summary?.find((s) => s.month === currentMonth);
   const otherMonths = summary?.filter((s) => s.month !== currentMonth) ?? [];
+  const yearIncome = summary?.reduce((s, m) => s + m.income, 0) ?? 0;
+  const yearBalance = summary?.reduce((s, m) => s + m.balance, 0) ?? 0;
 
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -42,6 +45,10 @@ export default function DashboardPage() {
           />
         </div>
       )}
+
+      <div className="mb-8">
+        <SavingsProgress mode="yearly" income={yearIncome} balance={yearBalance} />
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {otherMonths.map((s) => (

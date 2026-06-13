@@ -45,3 +45,13 @@ export type CategorySummary = {
   category_name: string;
   total: number;
 };
+
+export type SavingsGoal = {
+  id: number;
+  user_id: number;
+  type: "fixed" | "ratio";
+  amount: number | null;
+  percentage: number | null;
+  created_at: string;
+  updated_at: string;
+};

@@ -9,6 +9,7 @@ import { logout } from "@/lib/auth";
 import api from "@/lib/api";
 import TemplateList from "@/components/TemplateList";
 import CategoryManager from "@/components/CategoryManager";
+import SavingsGoalSettings from "@/components/SavingsGoalSettings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -117,6 +118,15 @@ export default function MyPage() {
       </Card>
 
       <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-primary">貯金目標</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SavingsGoalSettings />
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle className="text-[var(--expense)]">固定費テンプレート</CardTitle>
