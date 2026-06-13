@@ -33,8 +33,8 @@ export default function MonthDetailPage({ params }: Props) {
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-3 mb-8 md:flex-row md:items-center md:justify-between md:gap-0">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
           <Link href="/dashboard" className="text-primary hover:underline text-sm">
             ダッシュボードへ戻る
           </Link>
@@ -58,7 +58,7 @@ export default function MonthDetailPage({ params }: Props) {
         {incomeSummary && incomeSummary.length > 0 && (
           <CategoryPieChart data={incomeSummary} title="収入カテゴリー" />
         )}
-        {expenseSummary && (
+        {expenseSummary && expenseSummary.length > 0 && (
           <CategoryPieChart data={expenseSummary} title="支出カテゴリー" />
         )}
       </div>

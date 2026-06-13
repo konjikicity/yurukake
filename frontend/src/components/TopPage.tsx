@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -43,6 +46,12 @@ function SparklesIcon({ className }: { className?: string }) {
 }
 
 export default function TopPage() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setLoggedIn(!!localStorage.getItem("token"));
+  }, []);
+
   return (
     <div>
       <section className="relative overflow-hidden py-24 md:py-36 text-center px-4">
@@ -65,16 +74,26 @@ export default function TopPage() {
             収入と支出だけを記録するゆるい家計簿
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/register">
-              <Button size="lg" className="text-lg px-10 py-6 rounded-full shadow-lg hover:shadow-xl transition-shadow">
-                無料ではじめる
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="outline" size="lg" className="text-lg px-10 py-6 rounded-full">
-                ログイン
-              </Button>
-            </Link>
+            {loggedIn ? (
+              <Link href="/dashboard">
+                <Button size="lg" className="text-lg px-10 py-6 rounded-full shadow-lg hover:shadow-xl transition-shadow">
+                  ダッシュボードへ
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/register">
+                  <Button size="lg" className="text-lg px-10 py-6 rounded-full shadow-lg hover:shadow-xl transition-shadow">
+                    無料ではじめる
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button variant="outline" size="lg" className="text-lg px-10 py-6 rounded-full">
+                    ログイン
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -170,14 +189,16 @@ export default function TopPage() {
         <div className="max-w-2xl mx-auto">
           <WalletIcon className="w-16 h-16 text-primary mx-auto mb-6" />
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
-            さっそくはじめてみよう
+            {loggedIn ? "さっそく記録してみよう" : "さっそくはじめてみよう"}
           </h2>
           <p className="text-muted-foreground mb-10">
-            登録は無料。むずかしい設定は一切ありません。
+            {loggedIn
+              ? "ダッシュボードから今月の収支を記録できます。"
+              : "登録は無料。むずかしい設定は一切ありません。"}
           </p>
-          <Link href="/register">
+          <Link href={loggedIn ? "/dashboard" : "/register"}>
             <Button size="lg" className="text-lg px-10 py-6 rounded-full shadow-lg hover:shadow-xl transition-shadow">
-              無料ではじめる
+              {loggedIn ? "ダッシュボードへ" : "無料ではじめる"}
             </Button>
           </Link>
         </div>
