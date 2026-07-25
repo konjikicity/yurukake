@@ -42,7 +42,7 @@ export default function LoginForm() {
     <Card className="w-full max-w-md mx-auto shadow-lg">
       <CardHeader className="text-center pb-2">
         <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="w-7 h-7 text-primary-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
             <polyline points="10 17 15 12 10 7" />
             <line x1="15" y1="12" x2="3" y2="12" />
@@ -86,7 +86,7 @@ export default function LoginForm() {
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             アカウントをお持ちでない方は
-            <Link href="/register" className="text-primary hover:underline ml-1">
+            <Link href="/register" className="text-primary-text hover:underline ml-1">
               新規登録
             </Link>
           </p>

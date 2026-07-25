@@ -43,8 +43,8 @@ export default function RegisterForm() {
   return (
     <Card className="w-full max-w-md mx-auto shadow-lg">
       <CardHeader className="text-center pb-2">
-        <div className="w-14 h-14 rounded-2xl bg-[var(--income)]/10 flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-[var(--income)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <div className="w-14 h-14 rounded-2xl bg-income/10 flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-income-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
             <line x1="19" y1="8" x2="19" y2="14" />
@@ -117,7 +117,7 @@ export default function RegisterForm() {
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             すでにアカウントをお持ちの方は
-            <Link href="/login" className="text-primary hover:underline ml-1">
+            <Link href="/login" className="text-primary-text hover:underline ml-1">
               ログイン
             </Link>
           </p>

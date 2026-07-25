@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSavingsGoal } from "@/hooks/use-savings-goal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 type Props =
   | { mode: "monthly"; income: number; balance: number }
@@ -24,7 +25,7 @@ export default function SavingsProgress(props: Props) {
         <CardContent>
           <p className="text-sm text-muted-foreground">
             貯金目標がまだ設定されていません。{" "}
-            <Link href="/mypage" className="text-primary hover:underline">
+            <Link href="/mypage" className="text-primary-text hover:underline">
               マイページで設定する
             </Link>
           </p>
@@ -44,11 +45,7 @@ export default function SavingsProgress(props: Props) {
   const isAchieved = goalAmount > 0 && achieved >= goalAmount;
   const isNegative = achieved < 0;
 
-  const barColor = isAchieved
-    ? "bg-[var(--income)]"
-    : isNegative
-      ? "bg-[var(--expense)]"
-      : "bg-primary";
+  const barColor = isAchieved ? "bg-income" : isNegative ? "bg-expense" : "bg-primary";
 
   const goalDescription =
     goal.type === "fixed"
@@ -65,21 +62,17 @@ export default function SavingsProgress(props: Props) {
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-end justify-between text-sm">
-          <span className={isNegative ? "text-[var(--expense)] font-bold" : "font-bold"}>
+          <span className={isNegative ? "text-expense-text font-bold" : "font-bold"}>
             {achieved.toLocaleString()}円
           </span>
           <span className="text-muted-foreground">/ {goalAmount.toLocaleString()}円</span>
         </div>
-        <div className="h-3 w-full rounded-full bg-muted overflow-hidden">
-          <div
-            className={`h-full ${barColor} transition-all`}
-            style={{ width: `${percent}%` }}
-            role="progressbar"
-            aria-valuenow={Math.round(percent)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          />
-        </div>
+        <Progress
+          value={Math.round(percent)}
+          aria-label={`${label}の達成率`}
+          trackClassName="h-3"
+          indicatorClassName={barColor}
+        />
         <p className="text-xs text-muted-foreground">
           {isAchieved
             ? "目標達成しました"

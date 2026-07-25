@@ -24,12 +24,16 @@ class CategorySummaryController extends Controller
 
         $categoryIds = $items->pluck('category_id')->filter()->all();
         $categories = \App\Models\Category::whereIn('id', $categoryIds)
-            ->pluck('name', 'id');
+            ->get()
+            ->keyBy('id');
 
         $result = $items->map(function ($item) use ($categories) {
+            $category = $item->category_id ? $categories->get($item->category_id) : null;
+
             return [
                 'category_id' => $item->category_id,
-                'category_name' => $item->category_id ? ($categories[$item->category_id] ?? '不明') : '未分類',
+                'category_name' => $category?->name ?? ($item->category_id ? '不明' : '未分類'),
+                'category_color' => $category?->color,
                 'total' => (int) $item->total,
             ];
         })->values()->all();

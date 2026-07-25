@@ -2,24 +2,26 @@
 
 import { useState } from "react";
 import { useSummary } from "@/hooks/use-summary";
+import { useCategoryYearlySummary } from "@/hooks/use-category-yearly";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CategoryYearChart from "@/components/CategoryYearChart";
 import YearSelector from "@/components/YearSelector";
 import CurrentMonthCard from "@/components/CurrentMonthCard";
 import MonthCard from "@/components/MonthCard";
 import YearChart from "@/components/YearChart";
 import SavingsProgress from "@/components/SavingsProgress";
+import InsightCard from "@/components/InsightCard";
+import DashboardLoading from "./loading";
 
 export default function DashboardPage() {
   const currentMonth = new Date().getMonth() + 1;
   const [year, setYear] = useState(new Date().getFullYear());
   const { data: summary, isLoading } = useSummary(year);
+  const { data: expenseYearly, isLoading: expenseLoading } = useCategoryYearlySummary(year, "expense");
+  const { data: incomeYearly, isLoading: incomeLoading } = useCategoryYearlySummary(year, "income");
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-32 gap-4">
-        <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-        <p className="text-muted-foreground">よみこみちゅう...</p>
-      </div>
-    );
+    return <DashboardLoading />;
   }
 
   const currentMonthData = summary?.find((s) => s.month === currentMonth);
@@ -42,12 +44,14 @@ export default function DashboardPage() {
             income={currentMonthData.income}
             expense={currentMonthData.expense}
             balance={currentMonthData.balance}
+            budget={currentMonthData.budget}
           />
         </div>
       )}
 
-      <div className="mb-8">
+      <div className="grid gap-4 mb-8 md:grid-cols-2">
         <SavingsProgress mode="yearly" income={yearIncome} balance={yearBalance} />
+        <InsightCard year={year} />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -59,17 +63,30 @@ export default function DashboardPage() {
             income={s.income}
             expense={s.expense}
             balance={s.balance}
+            budget={s.budget}
             prevIncome={s.prev_income}
             prevExpense={s.prev_expense}
           />
         ))}
       </div>
 
-      {summary && (
-        <div className="mt-8">
-          <YearChart data={summary} />
-        </div>
-      )}
+      <div className="mt-8">
+        <Tabs defaultValue="balance">
+          <TabsList className="mb-4">
+            <TabsTrigger value="balance">収支</TabsTrigger>
+            <TabsTrigger value="expense">支出カテゴリー</TabsTrigger>
+            <TabsTrigger value="income">収入カテゴリー</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="balance">{summary && <YearChart data={summary} />}</TabsContent>
+          <TabsContent value="expense">
+            <CategoryYearChart data={expenseYearly} isLoading={expenseLoading} />
+          </TabsContent>
+          <TabsContent value="income">
+            <CategoryYearChart data={incomeYearly} isLoading={incomeLoading} />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

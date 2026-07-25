@@ -28,6 +28,18 @@ describe("SavingsProgress", () => {
     expect(screen.getByText(/達成率 50%/)).toBeInTheDocument();
   });
 
+  it("exposes the progress to assistive technology", () => {
+    mockedUse.mockReturnValue({
+      data: { id: 1, user_id: 1, type: "fixed", amount: 50000, percentage: null, created_at: "", updated_at: "" },
+      isLoading: false,
+    } as ReturnType<typeof useSavingsGoal>);
+    render(<SavingsProgress mode="monthly" income={300000} balance={25000} />);
+    const bar = screen.getByRole("progressbar");
+    expect(bar).toHaveAttribute("aria-valuenow", "50");
+    expect(bar).toHaveAttribute("aria-valuemin", "0");
+    expect(bar).toHaveAttribute("aria-valuemax", "100");
+  });
+
   it("renders yearly progress for ratio goal", () => {
     mockedUse.mockReturnValue({
       data: { id: 1, user_id: 1, type: "ratio", amount: null, percentage: 20, created_at: "", updated_at: "" },

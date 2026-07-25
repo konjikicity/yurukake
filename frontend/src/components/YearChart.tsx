@@ -25,16 +25,24 @@ export default function YearChart({ data }: Props) {
   return (
     <div>
       <h3 className="text-lg font-bold mb-4">年間推移</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip formatter={(value) => Number(value).toLocaleString()} />
-          <Legend />
-          <Bar dataKey="income" name="収入" fill="var(--income)" />
-          <Bar dataKey="expense" name="支出" fill="var(--expense)" />
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="aspect-[4/3] w-full md:aspect-[16/7]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
+            <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              fontSize={12}
+              width={48}
+              tickFormatter={(v) => (v >= 10000 ? `${Math.round(v / 10000)}万` : String(v))}
+            />
+            <Tooltip formatter={(value) => `${Number(value).toLocaleString()}円`} />
+            <Legend />
+            <Bar dataKey="income" name="収入" fill="var(--income)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="expense" name="支出" fill="var(--expense)" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

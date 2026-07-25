@@ -113,7 +113,7 @@ export default function SavingsGoalSettings() {
           {saving ? "保存中..." : "保存"}
         </Button>
         {savedAt && !saving && (
-          <span className="text-sm text-[var(--income)]">保存しました</span>
+          <span className="text-sm text-income-text">保存しました</span>
         )}
       </div>
     </div>

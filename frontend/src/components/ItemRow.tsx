@@ -50,7 +50,7 @@ export default function ItemRow({ id, name, amount, onDelete, onUpdate }: Props)
       <span className="truncate min-w-0">{name}</span>
       <div className="flex items-center gap-2 shrink-0">
         <span
-          className="font-bold cursor-pointer hover:text-primary"
+          className="font-bold cursor-pointer hover:text-primary-text"
           onClick={() => setEditing(true)}
         >
           {amount.toLocaleString()}
@@ -58,7 +58,7 @@ export default function ItemRow({ id, name, amount, onDelete, onUpdate }: Props)
         <Button
           size="icon"
           variant="ghost"
-          className="h-7 w-7"
+          className="size-9"
           onClick={() => setEditing(true)}
           aria-label="編集"
         >
@@ -67,7 +67,7 @@ export default function ItemRow({ id, name, amount, onDelete, onUpdate }: Props)
         <Button
           size="icon"
           variant="ghost"
-          className="h-7 w-7 text-destructive hover:text-destructive"
+          className="size-9 text-destructive hover:text-destructive"
           onClick={() => onDelete(id)}
           aria-label="削除"
         >

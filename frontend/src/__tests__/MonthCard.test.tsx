@@ -38,4 +38,44 @@ describe("MonthCard", () => {
 
     expect(screen.getByText("-100,000")).toBeInTheDocument();
   });
+
+  it("renders no budget UI when no budget is given", () => {
+    render(
+      <MonthCard year={2026} month={3} income={300000} expense={200000} balance={100000} />
+    );
+
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    expect(screen.queryByText(/予算/)).not.toBeInTheDocument();
+  });
+
+  it("shows the budget usage rate when a budget is given", () => {
+    render(
+      <MonthCard
+        year={2026}
+        month={3}
+        income={300000}
+        expense={200000}
+        balance={100000}
+        budget={250000}
+      />
+    );
+
+    expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "80");
+    expect(screen.getByText("予算 80%")).toBeInTheDocument();
+  });
+
+  it("flags an exceeded budget", () => {
+    render(
+      <MonthCard
+        year={2026}
+        month={3}
+        income={300000}
+        expense={200000}
+        balance={100000}
+        budget={160000}
+      />
+    );
+
+    expect(screen.getByText("予算オーバー")).toBeInTheDocument();
+  });
 });

@@ -55,18 +55,18 @@ export default function TopPage() {
   return (
     <div>
       <section className="relative overflow-hidden py-24 md:py-36 text-center px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-[var(--income)]/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-income/10" />
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary-text text-sm font-medium mb-8">
             <SparklesIcon className="w-4 h-4" />
             かんたん・シンプルな家計簿
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
             家計管理を、<br className="md:hidden" />
-            <span className="text-primary">シンプル</span>に、<span className="text-[var(--income)]">ゆるく</span>。
+            <span className="text-primary-text">シンプル</span>に、<span className="text-income-text">ゆるく</span>。
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
             むずかしいことは抜きにして、
@@ -109,8 +109,8 @@ export default function TopPage() {
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-md hover:shadow-lg transition-shadow">
               <CardContent className="pt-8 pb-8 text-center space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-[var(--expense)]/10 flex items-center justify-center mx-auto">
-                  <svg className="w-8 h-8 text-[var(--expense)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-16 h-16 rounded-2xl bg-expense/10 flex items-center justify-center mx-auto">
+                  <svg className="w-8 h-8 text-expense-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M8 15h8" />
                     <path d="M9 9h.01" />
@@ -127,7 +127,7 @@ export default function TopPage() {
             <Card className="border-2 border-primary shadow-md hover:shadow-lg transition-shadow">
               <CardContent className="pt-8 pb-8 text-center space-y-4">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-                  <SparklesIcon className="w-8 h-8 text-primary" />
+                  <SparklesIcon className="w-8 h-8 text-primary-text" />
                 </div>
                 <h3 className="text-lg font-bold">ゆるかけはシンプル</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
@@ -146,7 +146,7 @@ export default function TopPage() {
           <p className="text-muted-foreground mb-14">3ステップですぐにはじめられます</p>
           <div className="grid md:grid-cols-3 gap-10">
             <div className="space-y-4">
-              <div className="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto">
+              <div className="w-20 h-20 rounded-2xl bg-primary/10 text-primary-text flex items-center justify-center mx-auto">
                 <ShieldIcon className="w-10 h-10" />
               </div>
               <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold">
@@ -158,10 +158,10 @@ export default function TopPage() {
               </p>
             </div>
             <div className="space-y-4">
-              <div className="w-20 h-20 rounded-2xl bg-[var(--income)]/10 text-[var(--income)] flex items-center justify-center mx-auto">
+              <div className="w-20 h-20 rounded-2xl bg-income/10 text-income-text flex items-center justify-center mx-auto">
                 <WalletIcon className="w-10 h-10" />
               </div>
-              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--income)] text-white text-sm font-bold">
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-income text-income-foreground text-sm font-bold">
                 2
               </div>
               <h3 className="font-bold text-lg">収入と支出を記録</h3>
@@ -170,10 +170,10 @@ export default function TopPage() {
               </p>
             </div>
             <div className="space-y-4">
-              <div className="w-20 h-20 rounded-2xl bg-[var(--expense)]/10 text-[var(--expense)] flex items-center justify-center mx-auto">
+              <div className="w-20 h-20 rounded-2xl bg-expense/10 text-expense-text flex items-center justify-center mx-auto">
                 <ChartIcon className="w-10 h-10" />
               </div>
-              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--expense)] text-white text-sm font-bold">
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-expense text-expense-foreground text-sm font-bold">
                 3
               </div>
               <h3 className="font-bold text-lg">年間の流れを確認</h3>
@@ -185,9 +185,9 @@ export default function TopPage() {
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-gradient-to-r from-primary/10 via-primary/5 to-[var(--income)]/10 text-center">
+      <section className="py-20 px-4 bg-gradient-to-r from-primary/10 via-primary/5 to-income/10 text-center">
         <div className="max-w-2xl mx-auto">
-          <WalletIcon className="w-16 h-16 text-primary mx-auto mb-6" />
+          <WalletIcon className="w-16 h-16 text-primary-text mx-auto mb-6" />
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
             {loggedIn ? "さっそく記録してみよう" : "さっそくはじめてみよう"}
           </h2>

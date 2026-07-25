@@ -11,7 +11,7 @@ export default function ApplyTemplatesButton({ onApply }: Props) {
     <Button
       onClick={onApply}
       variant="outline"
-      className="border-[var(--expense)] text-[var(--expense)] hover:bg-[var(--expense)] hover:text-white"
+      className="border-expense text-expense-text hover:bg-expense hover:text-expense-foreground"
     >
       固定費を一括登録
     </Button>
