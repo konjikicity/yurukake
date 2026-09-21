@@ -5,6 +5,8 @@ import { useAccountBalance } from "@/hooks/use-account-balance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const TITLE = "現在の口座残高";
+
 export default function AccountBalanceCard() {
   const { data: balance, isLoading } = useAccountBalance();
 
@@ -12,7 +14,7 @@ export default function AccountBalanceCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">口座残高</CardTitle>
+          <CardTitle className="text-base">{TITLE}</CardTitle>
         </CardHeader>
         <CardContent>
           <Skeleton className="h-8 w-40" />
@@ -25,7 +27,7 @@ export default function AccountBalanceCard() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">口座残高</CardTitle>
+          <CardTitle className="text-base">{TITLE}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
@@ -42,17 +44,19 @@ export default function AccountBalanceCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base flex items-center justify-between gap-2">
-          <span>口座残高</span>
-          {!balance.is_current && balance.month !== null && (
-            <span className="text-xs font-normal text-muted-foreground">{balance.month}月時点</span>
-          )}
-        </CardTitle>
+        <CardTitle className="text-base">{TITLE}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="text-2xl font-bold text-primary-text tabular-nums">
-          {balance.amount.toLocaleString()}円
-        </p>
+        <div>
+          <p className="text-2xl font-bold text-primary-text tabular-nums">
+            {balance.amount.toLocaleString()}円
+          </p>
+          {balance.updated_on && (
+            <p className="text-xs text-muted-foreground mt-1 tabular-nums">
+              {balance.updated_on.replaceAll("-", "/")} 入力
+            </p>
+          )}
+        </div>
         {!balance.is_current && (
           <Link href="/mypage" className="text-sm text-primary-text hover:underline">
             更新する

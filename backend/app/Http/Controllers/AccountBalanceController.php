@@ -20,6 +20,7 @@ class AccountBalanceController extends Controller
             'year' => $balance?->year,
             'month' => $balance?->month,
             'amount' => $balance?->amount,
+            'updated_on' => $balance?->updated_at?->format('Y-m-d'),
             'is_current' => $balance !== null
                 && $balance->year === $now->year
                 && $balance->month === $now->month,
@@ -43,6 +44,7 @@ class AccountBalanceController extends Controller
             'year' => $balance->year,
             'month' => $balance->month,
             'amount' => $balance->amount,
+            'updated_on' => $balance->updated_at->format('Y-m-d'),
             'is_current' => true,
         ], $balance->wasRecentlyCreated ? 201 : 200);
     }

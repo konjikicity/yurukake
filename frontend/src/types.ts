@@ -105,6 +105,7 @@ export type AccountBalance = {
   year: number | null;
   month: number | null;
   amount: number | null;
+  updated_on: string | null;
   is_current: boolean;
 };
 

@@ -15,6 +15,7 @@ import SavingsProgress from "@/components/SavingsProgress";
 import BudgetProgress from "@/components/BudgetProgress";
 import BudgetDialog from "@/components/BudgetDialog";
 import InsightCard from "@/components/InsightCard";
+import AccountBalanceCard from "@/components/AccountBalanceCard";
 import { runMutation } from "@/lib/mutate";
 import api from "@/lib/api";
 
@@ -76,6 +77,10 @@ export default function MonthDetailPage({ params }: Props) {
           onEdit={() => setBudgetOpen(true)}
         />
         <SavingsProgress mode="monthly" income={totalIncome} balance={totalIncome - totalExpense} />
+      </div>
+
+      <div className="mb-8">
+        <AccountBalanceCard />
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">

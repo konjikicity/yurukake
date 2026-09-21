@@ -57,6 +57,12 @@ export default function AccountBalanceSettings() {
         />
       </div>
 
+      {balance?.updated_on && (
+        <p className="text-xs text-muted-foreground tabular-nums">
+          最終入力 {balance.updated_on.replaceAll("-", "/")}
+        </p>
+      )}
+
       {isStale && (
         <p className="text-sm text-muted-foreground">
           {balance.month}月時点の残高です。いまの金額に更新しましょう。
