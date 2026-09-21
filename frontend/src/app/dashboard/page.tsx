@@ -10,6 +10,7 @@ import CurrentMonthCard from "@/components/CurrentMonthCard";
 import MonthCard from "@/components/MonthCard";
 import YearChart from "@/components/YearChart";
 import SavingsProgress from "@/components/SavingsProgress";
+import AccountBalanceCard from "@/components/AccountBalanceCard";
 import InsightCard from "@/components/InsightCard";
 import DashboardLoading from "./loading";
 
@@ -48,6 +49,10 @@ export default function DashboardPage() {
           />
         </div>
       )}
+
+      <div className="mb-8">
+        <AccountBalanceCard />
+      </div>
 
       <div className="grid gap-4 mb-8 md:grid-cols-2">
         <SavingsProgress mode="yearly" income={yearIncome} balance={yearBalance} />

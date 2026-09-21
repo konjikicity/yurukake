@@ -101,6 +101,13 @@ export type Insights = {
   facts: InsightFact[];
 };
 
+export type AccountBalance = {
+  year: number | null;
+  month: number | null;
+  amount: number | null;
+  is_current: boolean;
+};
+
 export type SavingsGoal = {
   id: number;
   user_id: number;

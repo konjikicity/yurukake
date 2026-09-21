@@ -14,6 +14,7 @@ import api from "@/lib/api";
 import TemplateList from "@/components/TemplateList";
 import CategoryManager from "@/components/CategoryManager";
 import SavingsGoalSettings from "@/components/SavingsGoalSettings";
+import AccountBalanceSettings from "@/components/AccountBalanceSettings";
 import DataExportButton from "@/components/DataExportButton";
 import DataImportDialog from "@/components/DataImportDialog";
 import { Button } from "@/components/ui/button";
@@ -105,6 +106,15 @@ export default function MyPage() {
           <Button variant="outline" size="sm" onClick={handleLogout}>
             ログアウト
           </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="text-base">口座残高</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AccountBalanceSettings />
         </CardContent>
       </Card>
 

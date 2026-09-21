@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountBalanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
@@ -44,4 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/savings-goal', [SavingsGoalController::class, 'show']);
     Route::post('/savings-goal', [SavingsGoalController::class, 'store']);
+
+    Route::get('/account-balance', [AccountBalanceController::class, 'show']);
+    Route::post('/account-balance', [AccountBalanceController::class, 'store']);
 });
