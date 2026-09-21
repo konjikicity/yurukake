@@ -147,7 +147,7 @@ export default function MyPage() {
       </Card>
 
       <Tabs defaultValue="goal">
-        <TabsList className="h-auto w-full flex-wrap justify-start">
+        <TabsList className="group-data-horizontal/tabs:h-auto w-full flex-wrap justify-start">
           <TabsTrigger value="goal" className="min-h-11">貯金目標</TabsTrigger>
           <TabsTrigger value="templates" className="min-h-11">固定費</TabsTrigger>
           <TabsTrigger value="categories" className="min-h-11">カテゴリー</TabsTrigger>
