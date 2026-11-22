@@ -13,7 +13,6 @@ import { runMutation } from "@/lib/mutate";
 import api from "@/lib/api";
 import TemplateList from "@/components/TemplateList";
 import CategoryManager from "@/components/CategoryManager";
-import SavingsGoalSettings from "@/components/SavingsGoalSettings";
 import AccountBalanceSettings from "@/components/AccountBalanceSettings";
 import DataExportButton from "@/components/DataExportButton";
 import DataImportDialog from "@/components/DataImportDialog";
@@ -147,24 +146,12 @@ export default function MyPage() {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="goal">
+      <Tabs defaultValue="templates">
         <TabsList className="group-data-horizontal/tabs:h-auto w-full flex-wrap justify-start">
-          <TabsTrigger value="goal" className="min-h-11">貯金目標</TabsTrigger>
           <TabsTrigger value="templates" className="min-h-11">固定費</TabsTrigger>
           <TabsTrigger value="categories" className="min-h-11">カテゴリー</TabsTrigger>
           <TabsTrigger value="data" className="min-h-11">データ管理</TabsTrigger>
         </TabsList>
-
-        <TabsContent value="goal">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-primary-text">貯金目標</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SavingsGoalSettings />
-            </CardContent>
-          </Card>
-        </TabsContent>
 
         <TabsContent value="templates">
           <Card>

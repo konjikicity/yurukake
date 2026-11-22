@@ -1,20 +1,14 @@
 "use client";
 
-import { use, useState } from "react";
+import { use } from "react";
 import Link from "next/link";
-import { mutate as globalMutate } from "swr";
 import { useIncomeItems, useExpenseItems } from "@/hooks/use-items";
 import { useCategorySummary } from "@/hooks/use-categories";
-import { useBudget } from "@/hooks/use-budget";
 import IncomeSection from "@/components/IncomeSection";
 import ExpenseSection from "@/components/ExpenseSection";
 import SummaryBar from "@/components/SummaryBar";
 import ApplyTemplatesButton from "@/components/ApplyTemplatesButton";
 import CategoryPieChart from "@/components/CategoryPieChart";
-import SavingsProgress from "@/components/SavingsProgress";
-import BudgetProgress from "@/components/BudgetProgress";
-import BudgetDialog from "@/components/BudgetDialog";
-import InsightCard from "@/components/InsightCard";
 import AccountBalanceCard from "@/components/AccountBalanceCard";
 import MonthNav from "@/components/MonthNav";
 import { runMutation } from "@/lib/mutate";
@@ -32,15 +26,8 @@ export default function MonthDetailPage({ params }: Props) {
   const { data: expenseItems, mutate: mutateExpense } = useExpenseItems(year, month);
   const { data: expenseSummary } = useCategorySummary(year, month, "expense");
   const { data: incomeSummary } = useCategorySummary(year, month, "income");
-  const { data: budget, mutate: mutateBudget } = useBudget(year, month);
-  const [budgetOpen, setBudgetOpen] = useState(false);
   const totalIncome = incomeItems?.reduce((sum, i) => sum + i.amount, 0) ?? 0;
   const totalExpense = expenseItems?.reduce((sum, i) => sum + i.amount, 0) ?? 0;
-
-  const handleBudgetSaved = () => {
-    mutateBudget();
-    globalMutate(`/api/summary?year=${year}`);
-  };
 
   const handleApplyTemplates = () =>
     runMutation(() => api.post("/api/expense-templates/apply", { year, month }), {
@@ -65,19 +52,6 @@ export default function MonthDetailPage({ params }: Props) {
         <SummaryBar income={totalIncome} expense={totalExpense} />
       </div>
 
-      <div className="mb-4">
-        <InsightCard year={year} month={month} />
-      </div>
-
-      <div className="grid gap-4 mb-8 md:grid-cols-2">
-        <BudgetProgress
-          expense={totalExpense}
-          budget={budget?.amount}
-          onEdit={() => setBudgetOpen(true)}
-        />
-        <SavingsProgress mode="monthly" income={totalIncome} balance={totalIncome - totalExpense} />
-      </div>
-
       <div className="mb-8">
         <AccountBalanceCard />
       </div>
@@ -95,15 +69,6 @@ export default function MonthDetailPage({ params }: Props) {
           <CategoryPieChart data={expenseSummary} title="支出カテゴリー" />
         )}
       </div>
-
-      <BudgetDialog
-        open={budgetOpen}
-        year={year}
-        month={month}
-        budget={budget?.amount}
-        onOpenChange={setBudgetOpen}
-        onSaved={handleBudgetSaved}
-      />
     </div>
   );
 }

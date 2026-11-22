@@ -25,7 +25,6 @@ export type MonthlySummary = {
   income: number;
   expense: number;
   balance: number;
-  budget: number | null;
   prev_income: number;
   prev_expense: number;
 };
@@ -64,57 +63,10 @@ export type CategoryYearlySummary = {
   data: CategoryMonthRow[];
 };
 
-export type ComparisonDirection = "up" | "down" | "flat" | "new";
-
-export type ComparisonFact = {
-  type: "yoy_expense" | "mom_expense" | "vs_average";
-  current: number;
-  previous?: number;
-  average?: number;
-  diff: number;
-  rate: number | null;
-  direction: ComparisonDirection;
-};
-
-export type TopCategoryFact = {
-  type: "top_category";
-  category_id: number | null;
-  category_name: string;
-  category_color: string | null;
-  total: number;
-  share: number;
-};
-
-export type BudgetFact = {
-  type: "budget";
-  budget: number;
-  expense: number;
-  rate: number;
-  level: "safe" | "warn" | "over";
-};
-
-export type InsightFact = ComparisonFact | TopCategoryFact | BudgetFact;
-
-export type Insights = {
-  year: number;
-  month: number | null;
-  facts: InsightFact[];
-};
-
 export type AccountBalance = {
   year: number | null;
   month: number | null;
   amount: number | null;
   updated_on: string | null;
   is_current: boolean;
-};
-
-export type SavingsGoal = {
-  id: number;
-  user_id: number;
-  type: "fixed" | "ratio";
-  amount: number | null;
-  percentage: number | null;
-  created_at: string;
-  updated_at: string;
 };

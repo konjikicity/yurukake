@@ -19,8 +19,8 @@ jest.mock("recharts", () => ({
 }));
 
 const mockData: MonthlySummary[] = [
-  { month: 1, income: 300000, expense: 200000, balance: 100000, budget: null, prev_income: 0, prev_expense: 0 },
-  { month: 2, income: 250000, expense: 180000, balance: 70000, budget: null, prev_income: 0, prev_expense: 0 },
+  { month: 1, income: 300000, expense: 200000, balance: 100000, prev_income: 0, prev_expense: 0 },
+  { month: 2, income: 250000, expense: 180000, balance: 70000, prev_income: 0, prev_expense: 0 },
 ];
 
 describe("YearChart", () => {

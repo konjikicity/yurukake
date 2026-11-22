@@ -12,7 +12,6 @@ const LABEL: Record<ItemKind, string> = { income: "収入", expense: "支出" };
 
 const YEAR_SCOPED_KEYS = [
   "/api/summary",
-  "/api/insights",
   "/api/category-summary",
   "/api/category-yearly-summary",
   "/api/income-items",

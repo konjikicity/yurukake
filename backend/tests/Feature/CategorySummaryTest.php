@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\ExpenseItem;
 use App\Models\IncomeItem;
-use App\Models\MonthlyBudget;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -53,23 +52,6 @@ class CategorySummaryTest extends TestCase
 
         $uncategorized = collect($data)->firstWhere('category_name', '未分類');
         $this->assertEquals(5000, $uncategorized['total']);
-    }
-
-    public function test_summary_includes_budget(): void
-    {
-        MonthlyBudget::factory()->create([
-            'user_id' => $this->user->id,
-            'year' => 2026,
-            'month' => 1,
-            'amount' => 200000,
-        ]);
-
-        $response = $this->withHeaders($this->authHeaders())
-            ->getJson('/api/summary?year=2026');
-
-        $response->assertStatus(200);
-        $jan = collect($response->json())->firstWhere('month', 1);
-        $this->assertEquals(200000, $jan['budget']);
     }
 
     public function test_summary_includes_previous_year(): void

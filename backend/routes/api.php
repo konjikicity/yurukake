@@ -11,9 +11,6 @@ use App\Http\Controllers\CsvImportController;
 use App\Http\Controllers\ExpenseItemController;
 use App\Http\Controllers\ExpenseTemplateController;
 use App\Http\Controllers\IncomeItemController;
-use App\Http\Controllers\InsightController;
-use App\Http\Controllers\MonthlyBudgetController;
-use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\SummaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('expense-items', ExpenseItemController::class)->except(['show']);
 
     Route::get('/summary', SummaryController::class);
-    Route::get('/insights', InsightController::class);
 
     Route::post('/expense-templates/apply', [ExpenseTemplateController::class, 'apply']);
     Route::apiResource('expense-templates', ExpenseTemplateController::class)->except(['show']);
@@ -37,14 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategoryController::class)->except(['show']);
     Route::get('/category-summary', CategorySummaryController::class);
     Route::get('/category-yearly-summary', CategoryYearlySummaryController::class);
-    Route::get('/monthly-budgets', [MonthlyBudgetController::class, 'index']);
-    Route::post('/monthly-budgets', [MonthlyBudgetController::class, 'store']);
 
     Route::get('/export', CsvExportController::class);
     Route::post('/import', CsvImportController::class);
-
-    Route::get('/savings-goal', [SavingsGoalController::class, 'show']);
-    Route::post('/savings-goal', [SavingsGoalController::class, 'store']);
 
     Route::get('/account-balance', [AccountBalanceController::class, 'show']);
     Route::post('/account-balance', [AccountBalanceController::class, 'store']);

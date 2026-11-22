@@ -20,10 +20,6 @@ class MonthlySummaryService
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        $budgets = $user->monthlyBudgets()
-            ->where('year', $year)
-            ->pluck('amount', 'month');
-
         $prevIncomes = $user->incomeItems()
             ->where('year', $year - 1)
             ->selectRaw('month, SUM(amount) as total')
@@ -36,7 +32,7 @@ class MonthlySummaryService
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        return collect(range(1, 12))->map(function ($month) use ($incomes, $expenses, $budgets, $prevIncomes, $prevExpenses) {
+        return collect(range(1, 12))->map(function ($month) use ($incomes, $expenses, $prevIncomes, $prevExpenses) {
             $income = (int) ($incomes[$month] ?? 0);
             $expense = (int) ($expenses[$month] ?? 0);
             return [
@@ -44,7 +40,6 @@ class MonthlySummaryService
                 'income' => $income,
                 'expense' => $expense,
                 'balance' => $income - $expense,
-                'budget' => $budgets[$month] ?? null,
                 'prev_income' => (int) ($prevIncomes[$month] ?? 0),
                 'prev_expense' => (int) ($prevExpenses[$month] ?? 0),
             ];

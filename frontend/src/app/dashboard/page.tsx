@@ -9,10 +9,7 @@ import YearSelector from "@/components/YearSelector";
 import CurrentMonthCard from "@/components/CurrentMonthCard";
 import MonthCard from "@/components/MonthCard";
 import YearChart from "@/components/YearChart";
-import SavingsProgress from "@/components/SavingsProgress";
 import AccountBalanceCard from "@/components/AccountBalanceCard";
-import InsightCard from "@/components/InsightCard";
-import QuickAddButton from "@/components/QuickAddButton";
 import { splitMonths } from "@/lib/calendar";
 import DashboardLoading from "./loading";
 
@@ -28,11 +25,9 @@ export default function DashboardPage() {
 
   const today = new Date();
   const { current: currentMonthData, others: otherMonths } = splitMonths(summary, year, today);
-  const yearIncome = summary?.reduce((s, m) => s + m.income, 0) ?? 0;
-  const yearBalance = summary?.reduce((s, m) => s + m.balance, 0) ?? 0;
 
   return (
-    <div className="p-4 pb-24 md:p-8 md:pb-24 max-w-6xl mx-auto">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-2xl font-bold text-foreground">ダッシュボード</h2>
         <YearSelector year={year} onChange={setYear} />
@@ -46,18 +41,12 @@ export default function DashboardPage() {
             income={currentMonthData.income}
             expense={currentMonthData.expense}
             balance={currentMonthData.balance}
-            budget={currentMonthData.budget}
           />
         </div>
       )}
 
       <div className="mb-8">
         <AccountBalanceCard />
-      </div>
-
-      <div className="grid gap-4 mb-8 md:grid-cols-2">
-        <SavingsProgress mode="yearly" income={yearIncome} balance={yearBalance} />
-        <InsightCard year={year} />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -69,7 +58,6 @@ export default function DashboardPage() {
             income={s.income}
             expense={s.expense}
             balance={s.balance}
-            budget={s.budget}
             prevIncome={s.prev_income}
             prevExpense={s.prev_expense}
           />
@@ -97,8 +85,6 @@ export default function DashboardPage() {
           </TabsContent>
         </Tabs>
       </div>
-
-      <QuickAddButton today={today} />
     </div>
   );
 }

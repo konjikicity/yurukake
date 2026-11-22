@@ -5,11 +5,6 @@ export function adjacentMonth(year: number, month: number, delta: number) {
   return { year: date.getFullYear(), month: date.getMonth() + 1 };
 }
 
-export function daysLeftInMonth(today: Date): number {
-  const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-  return lastDay - today.getDate() + 1;
-}
-
 export function splitMonths(summary: MonthlySummary[] | undefined, year: number, today: Date) {
   const thisYear = today.getFullYear();
   const thisMonth = today.getMonth() + 1;

@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { BUDGET_BAR, budgetStatus } from "@/lib/budget";
 import { yen } from "@/lib/format";
-import BudgetBadge from "./BudgetBadge";
 
 type Props = {
   year: number;
@@ -11,7 +8,6 @@ type Props = {
   income: number;
   expense: number;
   balance: number;
-  budget?: number | null;
   prevIncome?: number;
   prevExpense?: number;
 };
@@ -22,10 +18,8 @@ export default function MonthCard({
   income,
   expense,
   balance,
-  budget,
   prevExpense,
 }: Props) {
-  const { percent, level } = budgetStatus(expense, budget);
   const yoyRate =
     prevExpense !== undefined && prevExpense > 0
       ? Math.round(((expense - prevExpense) / prevExpense) * 100)
@@ -52,23 +46,6 @@ export default function MonthCard({
               {yen(balance)}
             </span>
           </div>
-          {level !== "none" && (
-            <div className="space-y-1 pt-1">
-              <div className="flex items-center justify-between text-xs">
-                {level === "over" ? (
-                  <BudgetBadge level={level} />
-                ) : (
-                  <span className="text-muted-foreground">予算 {percent}%</span>
-                )}
-              </div>
-              <Progress
-                value={Math.min(100, percent)}
-                aria-label="予算の消化率"
-                trackClassName="h-1.5"
-                indicatorClassName={BUDGET_BAR[level]}
-              />
-            </div>
-          )}
           {yoyRate !== null && (
             <p className="pt-1 text-xs text-muted-foreground">
               前年同月比 {yoyRate > 0 ? "+" : ""}
