@@ -68,9 +68,9 @@ function toMessage(fact: InsightFact): InsightMessage | null {
     case "budget":
       if (fact.level === "over") {
         return {
-          icon: "🚨",
+          icon: "🫣",
           tone: "bad",
-          text: `予算を ${yen(fact.expense - fact.budget)} こえています。`,
+          text: `予算を ${yen(fact.expense - fact.budget)} こえちゃいました。来月ゆるっと調整しましょ。`,
         };
       }
       if (fact.level === "warn") {

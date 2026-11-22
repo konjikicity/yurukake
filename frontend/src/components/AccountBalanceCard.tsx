@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAccountBalance } from "@/hooks/use-account-balance";
 import { useSummary } from "@/hooks/use-summary";
+import { yen } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -52,7 +53,7 @@ export default function AccountBalanceCard() {
       <CardContent className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
           <p className="text-2xl font-bold text-primary-text tabular-nums">
-            {balance.amount.toLocaleString()}円
+            {yen(balance.amount)}
           </p>
           {balance.updated_on && (
             <p className="text-xs text-muted-foreground mt-1 tabular-nums">
@@ -61,7 +62,7 @@ export default function AccountBalanceCard() {
           )}
           {monthBalance != null && monthBalance < 0 && (
             <p className="text-sm text-expense-text mt-1 tabular-nums">
-              収支 {monthBalance.toLocaleString()}円 → 差引後 {(balance.amount + monthBalance).toLocaleString()}円
+              収支 {yen(monthBalance)} → 差引後 {yen(balance.amount + monthBalance)}
             </p>
           )}
         </div>

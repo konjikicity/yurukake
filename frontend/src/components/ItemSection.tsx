@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { groupItemsByCategory } from "@/lib/group-items";
+import { yen } from "@/lib/format";
 import type { Category, Item } from "@/types";
 import ItemRow from "./ItemRow";
 import AddItemForm from "./AddItemForm";
@@ -48,7 +49,7 @@ export default function ItemSection({
         <Button
           size="icon"
           variant="ghost"
-          className="size-9"
+          className="size-11"
           onClick={() => setShowForm(!showForm)}
           aria-label="追加"
         >
@@ -70,7 +71,7 @@ export default function ItemSection({
                 {group.categoryName}
               </span>
               <span className="text-xs text-muted-foreground">
-                ({group.items.reduce((s, i) => s + i.amount, 0).toLocaleString()})
+                ({yen(group.items.reduce((s, i) => s + i.amount, 0))})
               </span>
             </div>
             <div className="pl-5">
@@ -88,7 +89,7 @@ export default function ItemSection({
           </div>
         ))}
       </div>
-      {showForm && <AddItemForm onAdd={handleAddAndClose} categories={categories} />}
+      {showForm && <AddItemForm onAdd={handleAddAndClose} categories={categories} autoFocus />}
     </div>
   );
 }

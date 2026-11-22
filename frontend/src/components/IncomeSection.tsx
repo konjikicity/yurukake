@@ -2,8 +2,7 @@
 
 import { useIncomeItems } from "@/hooks/use-items";
 import { useCategories } from "@/hooks/use-categories";
-import { runMutation } from "@/lib/mutate";
-import api from "@/lib/api";
+import { addItem, deleteItemWithUndo, updateItem } from "@/lib/item-actions";
 import ItemSection from "./ItemSection";
 
 type Props = {
@@ -12,8 +11,10 @@ type Props = {
 };
 
 export default function IncomeSection({ year, month }: Props) {
-  const { data: items, mutate } = useIncomeItems(year, month);
+  const { data: items } = useIncomeItems(year, month);
   const { data: categories } = useCategories("income");
+
+  const findItem = (id: number) => items?.find((item) => item.id === id);
 
   return (
     <ItemSection
@@ -22,30 +23,13 @@ export default function IncomeSection({ year, month }: Props) {
       items={items ?? []}
       categories={categories ?? []}
       onAdd={(name, amount, categoryId) =>
-        runMutation(
-          () =>
-            api.post("/api/income-items", {
-              year,
-              month,
-              name,
-              amount,
-              category_id: categoryId ?? null,
-            }),
-          { error: "収入を追加できませんでした", onDone: mutate }
-        )
+        addItem("income", { year, month, name, amount, category_id: categoryId ?? null })
       }
-      onDelete={(id) =>
-        runMutation(() => api.delete(`/api/income-items/${id}`), {
-          error: "収入を削除できませんでした",
-          onDone: mutate,
-        })
-      }
-      onUpdate={(id, name, amount) =>
-        runMutation(() => api.put(`/api/income-items/${id}`, { name, amount }), {
-          error: "収入を更新できませんでした",
-          onDone: mutate,
-        })
-      }
+      onDelete={(id) => {
+        const item = findItem(id);
+        if (item) deleteItemWithUndo("income", item);
+      }}
+      onUpdate={(id, name, amount) => updateItem("income", { id, year }, name, amount)}
     />
   );
 }

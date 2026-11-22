@@ -5,7 +5,7 @@ import AddItemForm from "@/components/AddItemForm";
 describe("AddItemForm", () => {
   it("renders name and amount inputs", () => {
     render(<AddItemForm onAdd={jest.fn()} />);
-    expect(screen.getByPlaceholderText("項目名")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/項目名/)).toBeInTheDocument();
     expect(screen.getByPlaceholderText("金額")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "追加" })).toBeInTheDocument();
   });
@@ -15,7 +15,7 @@ describe("AddItemForm", () => {
     render(<AddItemForm onAdd={onAdd} />);
     const user = userEvent.setup();
 
-    await user.type(screen.getByPlaceholderText("項目名"), "給料");
+    await user.type(screen.getByPlaceholderText(/項目名/), "給料");
     await user.type(screen.getByPlaceholderText("金額"), "300000");
     await user.click(screen.getByRole("button", { name: "追加" }));
 

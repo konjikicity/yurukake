@@ -15,7 +15,7 @@ describe("BudgetProgress", () => {
     render(<BudgetProgress expense={80000} budget={160000} onEdit={noop} />);
     expect(screen.getByText("のこり 80,000円")).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "50");
-    expect(screen.queryByText("予算オーバー")).not.toBeInTheDocument();
+    expect(screen.queryByText("ちょっと使いすぎ")).not.toBeInTheDocument();
   });
 
   it("warns as the budget is nearly used up", () => {
@@ -25,8 +25,8 @@ describe("BudgetProgress", () => {
 
   it("shows the overspend amount once the budget is exceeded", () => {
     render(<BudgetProgress expense={176000} budget={160000} onEdit={noop} />);
-    expect(screen.getByText("予算オーバー")).toBeInTheDocument();
-    expect(screen.getByText("16,000円 こえています")).toBeInTheDocument();
+    expect(screen.getByText("ちょっと使いすぎ")).toBeInTheDocument();
+    expect(screen.getByText("16,000円 オーバーしてます")).toBeInTheDocument();
   });
 
   it("caps the progress bar at 100 when overspent", () => {

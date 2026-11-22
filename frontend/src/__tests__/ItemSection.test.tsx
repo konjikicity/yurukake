@@ -47,7 +47,7 @@ describe("ItemSection", () => {
 
     expect(screen.getByText("支出")).toBeInTheDocument();
     expect(screen.getByText("食費")).toBeInTheDocument();
-    expect(screen.getByText("(5,000)")).toBeInTheDocument();
+    expect(screen.getByText("(5,000円)")).toBeInTheDocument();
     expect(screen.getByText("未分類")).toBeInTheDocument();
     expect(screen.getByText("スーパー")).toBeInTheDocument();
   });
@@ -95,11 +95,11 @@ describe("ItemSection", () => {
     const user = userEvent.setup();
 
     const toggle = screen.getByRole("button", { name: "追加" });
-    expect(screen.queryByPlaceholderText("項目名")).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText(/項目名/)).not.toBeInTheDocument();
     await user.click(toggle);
-    expect(screen.getByPlaceholderText("項目名")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/項目名/)).toBeInTheDocument();
     await user.click(toggle);
-    expect(screen.queryByPlaceholderText("項目名")).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText(/項目名/)).not.toBeInTheDocument();
   });
 
   it("passes the item id to onDelete", async () => {

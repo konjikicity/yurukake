@@ -20,9 +20,9 @@ describe("MonthCard", () => {
     );
 
     expect(screen.getByText("3月")).toBeInTheDocument();
-    expect(screen.getByText("300,000")).toBeInTheDocument();
-    expect(screen.getByText("200,000")).toBeInTheDocument();
-    expect(screen.getByText("100,000")).toBeInTheDocument();
+    expect(screen.getByText("300,000円")).toBeInTheDocument();
+    expect(screen.getByText("200,000円")).toBeInTheDocument();
+    expect(screen.getByText("100,000円")).toBeInTheDocument();
   });
 
   it("shows negative balance in red-ish style", () => {
@@ -36,7 +36,7 @@ describe("MonthCard", () => {
       />
     );
 
-    expect(screen.getByText("-100,000")).toBeInTheDocument();
+    expect(screen.getByText("-100,000円")).toBeInTheDocument();
   });
 
   it("renders no budget UI when no budget is given", () => {
@@ -76,6 +76,6 @@ describe("MonthCard", () => {
       />
     );
 
-    expect(screen.getByText("予算オーバー")).toBeInTheDocument();
+    expect(screen.getByText("ちょっと使いすぎ")).toBeInTheDocument();
   });
 });

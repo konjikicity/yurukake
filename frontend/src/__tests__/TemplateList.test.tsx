@@ -20,9 +20,9 @@ describe("TemplateList", () => {
     );
 
     expect(screen.getByText("家賃")).toBeInTheDocument();
-    expect(screen.getByText("80,000")).toBeInTheDocument();
+    expect(screen.getByText("80,000円")).toBeInTheDocument();
     expect(screen.getByText("通信費")).toBeInTheDocument();
-    expect(screen.getByText("5,000")).toBeInTheDocument();
+    expect(screen.getByText("5,000円")).toBeInTheDocument();
   });
 
   it("calls onAdd when adding a template", async () => {
@@ -38,7 +38,7 @@ describe("TemplateList", () => {
     );
 
     const user = userEvent.setup();
-    await user.type(screen.getByPlaceholderText("項目名"), "保険料");
+    await user.type(screen.getByPlaceholderText(/項目名/), "保険料");
     await user.type(screen.getByPlaceholderText("金額"), "10000");
     await user.click(screen.getByRole("button", { name: "追加" }));
 

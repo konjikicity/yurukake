@@ -1,3 +1,5 @@
+import { daysLeftInMonth } from "@/lib/calendar";
+
 export type BudgetLevel = "none" | "safe" | "warn" | "over";
 
 export type BudgetStatus = {
@@ -21,4 +23,15 @@ export function budgetStatus(expense: number, budget: number | null | undefined)
   const level: BudgetLevel = expense >= budget ? "over" : ratio >= WARN_THRESHOLD ? "warn" : "safe";
 
   return { percent, remaining, over, level };
+}
+
+export const BUDGET_BAR: Record<BudgetLevel, string> = {
+  safe: "bg-primary",
+  warn: "bg-chart-4",
+  over: "bg-expense",
+  none: "bg-muted",
+};
+
+export function dailyAllowance(remaining: number, today: Date): number {
+  return Math.floor(remaining / daysLeftInMonth(today));
 }

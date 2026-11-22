@@ -12,10 +12,11 @@ import YearChart from "@/components/YearChart";
 import SavingsProgress from "@/components/SavingsProgress";
 import AccountBalanceCard from "@/components/AccountBalanceCard";
 import InsightCard from "@/components/InsightCard";
+import QuickAddButton from "@/components/QuickAddButton";
+import { splitMonths } from "@/lib/calendar";
 import DashboardLoading from "./loading";
 
 export default function DashboardPage() {
-  const currentMonth = new Date().getMonth() + 1;
   const [year, setYear] = useState(new Date().getFullYear());
   const { data: summary, isLoading } = useSummary(year);
   const { data: expenseYearly, isLoading: expenseLoading } = useCategoryYearlySummary(year, "expense");
@@ -25,13 +26,13 @@ export default function DashboardPage() {
     return <DashboardLoading />;
   }
 
-  const currentMonthData = summary?.find((s) => s.month === currentMonth);
-  const otherMonths = summary?.filter((s) => s.month !== currentMonth) ?? [];
+  const today = new Date();
+  const { current: currentMonthData, others: otherMonths } = splitMonths(summary, year, today);
   const yearIncome = summary?.reduce((s, m) => s + m.income, 0) ?? 0;
   const yearBalance = summary?.reduce((s, m) => s + m.balance, 0) ?? 0;
 
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto">
+    <div className="p-4 pb-24 md:p-8 md:pb-24 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-2xl font-bold text-foreground">ダッシュボード</h2>
         <YearSelector year={year} onChange={setYear} />
@@ -41,7 +42,7 @@ export default function DashboardPage() {
         <div className="mb-8">
           <CurrentMonthCard
             year={year}
-            month={currentMonth}
+            month={currentMonthData.month}
             income={currentMonthData.income}
             expense={currentMonthData.expense}
             balance={currentMonthData.balance}
@@ -75,6 +76,10 @@ export default function DashboardPage() {
         ))}
       </div>
 
+      {otherMonths.length === 0 && !currentMonthData && (
+        <p className="text-sm text-muted-foreground">この年はまだはじまっていません。</p>
+      )}
+
       <div className="mt-8">
         <Tabs defaultValue="balance">
           <TabsList className="mb-4">
@@ -92,6 +97,8 @@ export default function DashboardPage() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <QuickAddButton today={today} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ describe("ItemRow", () => {
   it("renders item name and amount", () => {
     render(<ItemRow {...defaultProps} />);
     expect(screen.getByText("給料")).toBeInTheDocument();
-    expect(screen.getByText("300,000")).toBeInTheDocument();
+    expect(screen.getByText("300,000円")).toBeInTheDocument();
   });
 
   it("shows delete icon button", () => {
@@ -34,7 +34,7 @@ describe("ItemRow", () => {
 
   it("enters edit mode when amount is clicked", () => {
     render(<ItemRow {...defaultProps} />);
-    fireEvent.click(screen.getByText("300,000"));
+    fireEvent.click(screen.getByText("300,000円"));
     expect(screen.getByDisplayValue("300000")).toBeInTheDocument();
   });
 

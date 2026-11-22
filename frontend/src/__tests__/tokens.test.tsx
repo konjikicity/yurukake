@@ -12,14 +12,14 @@ jest.mock("next/link", () => ({
 describe("design tokens", () => {
   it("uses the accessible income text token, not the pastel fill token", () => {
     render(<SummaryBar income={300000} expense={200000} />);
-    const amount = screen.getByText("300,000");
+    const amount = screen.getByText("300,000円");
     expect(amount).toHaveClass("text-income-text");
     expect(amount).not.toHaveClass("text-income");
   });
 
   it("uses the accessible expense text token, not the pastel fill token", () => {
     render(<SummaryBar income={300000} expense={200000} />);
-    const amount = screen.getByText("200,000");
+    const amount = screen.getByText("200,000円");
     expect(amount).toHaveClass("text-expense-text");
     expect(amount).not.toHaveClass("text-expense");
   });

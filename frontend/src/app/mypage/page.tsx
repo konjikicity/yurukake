@@ -20,6 +20,7 @@ import DataImportDialog from "@/components/DataImportDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { yen } from "@/lib/format";
 
 export default function MyPage() {
   const router = useRouter();
@@ -126,21 +127,21 @@ export default function MyPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             <div>
               <p className="text-xs text-muted-foreground">収入合計</p>
-              <p className="text-lg font-bold text-income-text">{totalIncome.toLocaleString()}</p>
+              <p className="text-lg font-bold text-income-text">{yen(totalIncome)}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">支出合計</p>
-              <p className="text-lg font-bold text-expense-text">{totalExpense.toLocaleString()}</p>
+              <p className="text-lg font-bold text-expense-text">{yen(totalExpense)}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">収支</p>
               <p className={`text-lg font-bold ${totalBalance < 0 ? "text-expense-text" : "text-primary-text"}`}>
-                {totalBalance.toLocaleString()}
+                {yen(totalBalance)}
               </p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">月平均支出</p>
-              <p className="text-lg font-bold text-muted-foreground">{avgExpense.toLocaleString()}</p>
+              <p className="text-lg font-bold text-muted-foreground">{yen(avgExpense)}</p>
             </div>
           </div>
         </CardContent>

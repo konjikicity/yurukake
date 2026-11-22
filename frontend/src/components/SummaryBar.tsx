@@ -1,3 +1,5 @@
+import { yen } from "@/lib/format";
+
 type Props = {
   income: number;
   expense: number;
@@ -10,16 +12,16 @@ export default function SummaryBar({ income, expense }: Props) {
     <div className="flex flex-col sm:flex-row justify-around items-center gap-4 p-4 rounded-2xl bg-card border border-border">
       <div className="text-center">
         <p className="text-sm text-muted-foreground">収入合計</p>
-        <p className="text-xl font-bold text-income-text">{income.toLocaleString()}</p>
+        <p className="text-xl font-bold text-income-text">{yen(income)}</p>
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">支出合計</p>
-        <p className="text-xl font-bold text-expense-text">{expense.toLocaleString()}</p>
+        <p className="text-xl font-bold text-expense-text">{yen(expense)}</p>
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">収支</p>
         <p className={`text-xl font-bold ${balance < 0 ? "text-expense-text" : "text-primary-text"}`}>
-          {balance.toLocaleString()}
+          {yen(balance)}
         </p>
       </div>
     </div>

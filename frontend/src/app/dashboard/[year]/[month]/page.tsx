@@ -16,6 +16,7 @@ import BudgetProgress from "@/components/BudgetProgress";
 import BudgetDialog from "@/components/BudgetDialog";
 import InsightCard from "@/components/InsightCard";
 import AccountBalanceCard from "@/components/AccountBalanceCard";
+import MonthNav from "@/components/MonthNav";
 import { runMutation } from "@/lib/mutate";
 import api from "@/lib/api";
 
@@ -55,9 +56,7 @@ export default function MonthDetailPage({ params }: Props) {
           <Link href="/dashboard" className="text-primary-text hover:underline text-sm">
             ダッシュボードへ戻る
           </Link>
-          <h2 className="text-2xl font-bold text-foreground">
-            {year}年{month}月
-          </h2>
+          <MonthNav year={year} month={month} />
         </div>
         <ApplyTemplatesButton onApply={handleApplyTemplates} />
       </div>

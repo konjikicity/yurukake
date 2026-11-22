@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { budgetStatus } from "@/lib/budget";
+import { BUDGET_BAR, budgetStatus } from "@/lib/budget";
+import { yen } from "@/lib/format";
+import BudgetBadge from "./BudgetBadge";
 
 type Props = {
   year: number;
@@ -14,17 +15,6 @@ type Props = {
   prevIncome?: number;
   prevExpense?: number;
 };
-
-function formatNumber(n: number): string {
-  return n.toLocaleString();
-}
-
-const BAR = {
-  safe: "bg-primary",
-  warn: "bg-chart-4",
-  over: "bg-expense",
-  none: "bg-muted",
-} as const;
 
 export default function MonthCard({
   year,
@@ -50,23 +40,23 @@ export default function MonthCard({
         <CardContent className="space-y-1 text-sm">
           <div className="flex justify-between">
             <span className="text-income-text">収入</span>
-            <span className="text-income-text">{formatNumber(income)}</span>
+            <span className="text-income-text">{yen(income)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-expense-text">支出</span>
-            <span className="text-expense-text">{formatNumber(expense)}</span>
+            <span className="text-expense-text">{yen(expense)}</span>
           </div>
           <div className="flex justify-between font-bold border-t pt-1">
             <span>収支</span>
             <span className={balance < 0 ? "text-expense-text" : ""}>
-              {formatNumber(balance)}
+              {yen(balance)}
             </span>
           </div>
           {level !== "none" && (
             <div className="space-y-1 pt-1">
               <div className="flex items-center justify-between text-xs">
                 {level === "over" ? (
-                  <Badge variant="destructive">予算オーバー</Badge>
+                  <BudgetBadge level={level} />
                 ) : (
                   <span className="text-muted-foreground">予算 {percent}%</span>
                 )}
@@ -75,7 +65,7 @@ export default function MonthCard({
                 value={Math.min(100, percent)}
                 aria-label="予算の消化率"
                 trackClassName="h-1.5"
-                indicatorClassName={BAR[level]}
+                indicatorClassName={BUDGET_BAR[level]}
               />
             </div>
           )}
