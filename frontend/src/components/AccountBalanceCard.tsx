@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAccountBalance } from "@/hooks/use-account-balance";
+import { useSummary } from "@/hooks/use-summary";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -9,6 +10,8 @@ const TITLE = "現在の口座残高";
 
 export default function AccountBalanceCard() {
   const { data: balance, isLoading } = useAccountBalance();
+  const { data: summary } = useSummary(balance?.year ?? null);
+  const monthBalance = summary?.find((s) => s.month === balance?.month)?.balance;
 
   if (isLoading) {
     return (
@@ -54,6 +57,11 @@ export default function AccountBalanceCard() {
           {balance.updated_on && (
             <p className="text-xs text-muted-foreground mt-1 tabular-nums">
               {balance.updated_on.replaceAll("-", "/")} 入力
+            </p>
+          )}
+          {monthBalance != null && monthBalance < 0 && (
+            <p className="text-sm text-expense-text mt-1 tabular-nums">
+              収支 {monthBalance.toLocaleString()}円 → 差引後 {(balance.amount + monthBalance).toLocaleString()}円
             </p>
           )}
         </div>
